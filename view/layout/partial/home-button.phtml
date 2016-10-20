@@ -1,0 +1,62 @@
+<!--BEGIN-FOOTER-->
+       <footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                   <?php $Redesociais=$this->ReadHelper()->ExeRead('bs_rede_social',' WHERE state =? ORDER BY modified DESC LIMIT 12 OFFSET 0', ['0']);?>
+                            <?php
+                            $html=[];
+                            if (!$Redesociais->getResult()):
+                                $this->ReadHelper()->alert($Redesociais->getError());
+                            else:
+                                $url=['Twitter'=>'','LinkDin'=>'Google'];
+                                foreach ($Redesociais->getData() as $Redesocial):
+                                    $Redesocial['url']=sprintf("%s%s",$Redesocial['url'],$Redesocial['id_usuario']);
+                                    $partial='<li><a  title="#title#" targat="_blank" href="#url#" class="waves-effect waves-circle waves-light btn-floating secondary-content"><i class="#icone#"></i></a></li>';
+                                    $html[]=$this->ReadHelper()->Show($Redesocial, $partial,"redesociais");
+                                endforeach;
+                            endif;
+                            echo implode("", $html);
+                    ?>
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            <div class="container">
+                    
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="http://www.sigasmart.com.br">SIGA-SMART</a>
+            </div>
+          </div>
+        </footer>
+
+        
+          
+          <input type="hidden" id="lat" value="<?php echo $this->HomeHelper()->getIssusers('latitude');?>">
+          <input type="hidden" id="long" value="<?php echo $this->HomeHelper()->getIssusers('longetude');?>">
+          <input type="hidden" id="foto" value="<?php echo $this->HomeHelper()->getIssusers('images');?>">
+          <input type="hidden" id="title_map" value="<?php echo $this->HomeHelper()->getIssusers('title');?>">
+          <!-- <input type="hidden" id="mapPointX" value="">
+          <input type="hidden" id="mapPointY" value=""> -->
+        </div>
+        <?= $this->inlineScript() ?>
+       <!-- Scripts -->
+       <?php echo $this->headScript()
+            ->prependFile($this->basePath('/materialize_admin/assets/js/libs/sprintf/jquery.sprintf.js'))
+            ->prependFile($this->basePath('/materialize_admin/assets/js/libs/inputmask/jquery.inputmask.bundle.min.js'))
+            ->prependFile($this->basePath('/materialize_admin/assets/js/libs/remote-list/remote-list.js'))
+            //  ->prependFile($this->basePath('/grupo-suricatis-admin/js/directions.js'))
+            // ->prependFile('//maps.googleapis.com/maps/api/js?key=AIzaSyC-XOj2BxhA8H5sK97B8QXMGdxu22rHYWM')
+            ->prependFile($this->basePath('/materialize_admin/js/jquery-3.1.0.min.js'))
+            ->prependFile($this->basePath('/materialize_admin/js/modernizr-1.0.min.js'))?>
+
+    

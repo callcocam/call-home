@@ -1,0 +1,39 @@
+<?php echo $this->doctype() ?>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <?php
+        $title=$this->HomeHelper()->getIssusers('title');
+        echo$this->headTitle("..::{$title}::")->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php 
+        $setSeoFacebook=$this->HomeHelper()->setSeo('facebook');
+        if($setSeoFacebook){
+            $this->headMeta()->setProperty('fb:app_id', $setSeoFacebook->getAppId());
+
+            $this->OpenGraph()->setType($setSeoFacebook->getType());
+
+            $this->OpenGraph()->setTitle($setSeoFacebook->getTitle());
+
+            $this->OpenGraph()->setSiteName($setSeoFacebook->getSiteName());
+
+            $this->OpenGraph()->setDescription(\Base\Model\Check::Chars($setSeoFacebook->getDescription(),100));
+
+            $this->OpenGraph()->setUrl($setSeoFacebook->getUrl());
+            // $this->OpenGraph()->setLocale('pt', array('pt_BR', 'sr'));
+            $this->OpenGraph()->prependImage(sprintf("%sdist/%s",$setSeoFacebook->getUrl(),$setSeoFacebook->getImages()));
+        }
+         echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1, maximum-scale=1')->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+        ?>
+
+        <!-- Le styles -->
+        <?php echo$this->headLink(['rel' => 'shortcut icon', 'type' => '/assets_admin/image/vnd.microsoft.icon', 'href' => $this->basePath() . '/assets_admin/img/favicon.ico'])
+           
+            ->prependStylesheet($this->basePath('/materialize_admin/css/font-awesome.min.css'))
+            ->prependStylesheet('//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic')
+            ->prependStylesheet($this->basePath('/materialize_admin/css/materialize.min.css'))
+        ?>
+        <!-- <meta name="google-site-verification" content="EVvJ5qfhvH5HQx-mMgMK8Fh9kOis6TVkyoRbFs95ioY" /> -->
+         <style type="text/css"></style>
+
+    </head>
+    

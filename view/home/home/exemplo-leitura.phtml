@@ -1,0 +1,16 @@
+ <?php $Cronogramas=$this->ReadHelper()->ExeRead('bs_dia_evento',' WHERE event_id=? AND state =? ORDER BY id ASC LIMIT 50 OFFSET 0', [$event_id,'0']);?>
+                      <?php
+                      $html=[];
+                      $atividades=[];
+                      if (!$Cronogramas->getResult()):
+                          $this->ReadHelper()->alert($Cronogramas->getError());
+                      else:
+                          if($Cronogramas->getResult()){
+                              foreach ($Cronogramas->getData() as $Cronograma):
+                                          $partial_atividades=$this->partial('/tpl/dia-evento-atividades');
+                                          $html[]=$this->ReadHelper()->Show($Cronograma, $partial_atividades,"home");
+                              endforeach;
+                          }
+                      endif;
+                      echo implode("", $html);
+                      ?>
